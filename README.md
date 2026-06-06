@@ -53,22 +53,22 @@ Es un proyecto de práctica backend enfocado en autenticación, bases de datos y
 
 # 📁 Estructura del proyecto
 
-Sistema-usuarios/
-│
-├── app.py
-├── models.py
-├── instance/
-│ └── database.db
-│
-├── templates/
-│ ├── admin.html
-│ ├── edit_user.html
-│ ├── login.html
-│ ├── perfil.html
-│ ├── register.html
-│
-├── static/
-└── venv/
+-Sistema-usuarios/
+-│
+-├── app.py
+-├── models.py
+-├── instance/
+-│ └── database.db
+-│
+-├── templates/
+-│ ├── admin.html
+-│ ├── edit_user.html
+-│ ├── login.html
+-│ ├── perfil.html
+-│ ├── register.html
+-│
+-├── static/
+-└── venv/
 
 ---
 
