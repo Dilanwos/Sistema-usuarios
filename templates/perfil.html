@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Perfil de usuario</title>
+  </head>
+  <body>
+    <h1>Perfil del usuario</h1>
+
+    <p>Bienvenido, {{ username }}</p>
+
+    <hr />
+
+    <h3>Información del usuario</h3>
+    <p><strong>Usuario:</strong> {{ username }}</p>
+
+    <!-- Botón de logout -->
+    <a href="{{ url_for('logout') }}">
+      <button>Cerrar sesión</button>
+    </a>
+  </body>
+</html>
