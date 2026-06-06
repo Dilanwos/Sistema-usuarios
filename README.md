@@ -53,22 +53,23 @@ Es un proyecto de práctica backend enfocado en autenticación, bases de datos y
 
 # 📁 Estructura del proyecto
 
--Sistema-usuarios/
--│
--├── app.py
--├── models.py
--├── instance/
--│ └── database.db
--│
--├── templates/
--│ ├── admin.html
--│ ├── edit_user.html
--│ ├── login.html
--│ ├── perfil.html
--│ ├── register.html
--│
--├── static/
--└── venv/
+````plaintext
+Sistema-usuarios/
+│
+├── app.py
+├── models.py
+├── instance/
+│   └── database.db
+│
+├── templates/
+│   ├── admin.html
+│   ├── edit_user.html
+│   ├── login.html
+│   ├── perfil.html
+│   ├── register.html
+│
+├── static/
+└── venv/
 
 ---
 
@@ -94,7 +95,7 @@ pip install flask flask_sqlalchemy werkzeug
 
 5. Ejecutar el proyecto
 python app.py
-```
+````
 
 ---
 
