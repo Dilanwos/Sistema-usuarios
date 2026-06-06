@@ -53,7 +53,7 @@ Es un proyecto de práctica backend enfocado en autenticación, bases de datos y
 
 # 📁 Estructura del proyecto
 
-````plaintext
+```plaintext
 Sistema-usuarios/
 │
 ├── app.py
@@ -70,6 +70,7 @@ Sistema-usuarios/
 │
 ├── static/
 └── venv/
+```
 
 ---
 
@@ -95,7 +96,7 @@ pip install flask flask_sqlalchemy werkzeug
 
 5. Ejecutar el proyecto
 python app.py
-````
+```
 
 ---
 
