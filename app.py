@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from models import db, Usuario
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -22,11 +23,12 @@ def register():
         nombre = request.form["nombre"]
         email = request.form["email"]
         password = request.form["password"]
+        password_hash = generate_password_hash(password)
 
         nuevo_usuario = Usuario(
             nombre=nombre,
             email=email,
-            password=password
+            password=password_hash
         )
 
         db.session.add(nuevo_usuario)

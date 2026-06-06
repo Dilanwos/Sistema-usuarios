@@ -11,6 +11,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Email</th>
+        <th>Password</th>
       </tr>
 
       {% for usuario in usuarios %}
@@ -19,6 +20,7 @@
         <td>{{ usuario.id }}</td>
         <td>{{ usuario.nombre }}</td>
         <td>{{ usuario.email }}</td>
+        <td>{{ usuario.password }}</td>
       </tr>
 
       {% endfor %}
