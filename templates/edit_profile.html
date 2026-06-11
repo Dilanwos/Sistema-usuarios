@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block title %}Editar Perfil{% endblock %} {% block
+content %}
+
+<div class="edit-card">
+  <h1>Editar Perfil</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    <div class="preview-container">
+      <img
+        id="preview"
+        class="profile-img"
+        src="{{ url_for('static', filename='uploads/' + usuario.foto) }}"
+        alt="Vista previa"
+      />
+    </div>
+
+    <label>Nombre</label>
+
+    <input type="text" name="nombre" value="{{ usuario.nombre }}" required />
+
+    <label>Username</label>
+
+    <input
+      type="text"
+      name="username"
+      value="{{ usuario.username }}"
+      required
+    />
+
+    <label>Descripción</label>
+
+    <textarea name="descripcion" rows="5">{{ usuario.descripcion }}</textarea>
+
+    <label>Nueva foto</label>
+
+    <input type="file" name="foto" id="foto" accept="image/*" />
+    <div class="crop-container">
+      <img id="crop-image" style="max-width: 100%; display: none" />
+    </div>
+
+    <button type="submit">Guardar Cambios</button>
+  </form>
+</div>
+
+<script>
+  let cropper;
+
+  const input = document.getElementById("foto");
+
+  const image = document.getElementById("crop-image");
+
+  input.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      image.src = event.target.result;
+
+      image.style.display = "block";
+
+      if (cropper) {
+        cropper.destroy();
+      }
+
+      cropper = new Cropper(image, {
+        aspectRatio: 1,
+
+        viewMode: 1,
+
+        autoCropArea: 1,
+
+        responsive: true,
+      });
+    };
+
+    reader.readAsDataURL(file);
+  });
+</script>
+
+{% endblock %}
