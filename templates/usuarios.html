@@ -1,29 +1,26 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Usuarios</title>
-  </head>
-  <body>
-    <h1>Lista de Usuarios</h1>
+{% extends "base.html" %} {% block title %} Usuarios {% endblock %} {% block
+content %}
 
-    <table border="1">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Password</th>
-      </tr>
+<h1>Lista de Usuarios</h1>
 
-      {% for usuario in usuarios %}
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Email</th>
+    <th>Password</th>
+  </tr>
 
-      <tr>
-        <td>{{ usuario.id }}</td>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.password }}</td>
-      </tr>
+  {% for usuario in usuarios %}
 
-      {% endfor %}
-    </table>
-  </body>
-</html>
+  <tr>
+    <td>{{ usuario.id }}</td>
+    <td>{{ usuario.nombre }}</td>
+    <td>{{ usuario.email }}</td>
+    <td>{{ usuario.password }}</td>
+  </tr>
+
+  {% endfor %}
+</table>
+
+{% endblock %}
