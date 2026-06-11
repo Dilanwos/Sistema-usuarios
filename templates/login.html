@@ -1,23 +1,20 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Login</title>
-  </head>
-  <body>
-    <h1>Iniciar Sesión</h1>
+{% extends "base.html" %} {% block title %} Login {% endblock %} {% block
+content %}
 
-    <form method="POST">
-      <label>Email:</label>
-      <input type="email" name="email" />
+<h1>Iniciar Sesión</h1>
 
-      <br /><br />
+<form method="POST">
+  <label>Email:</label>
+  <input type="email" name="email" required />
 
-      <label>Contraseña:</label>
-      <input type="password" name="password" />
+  <br /><br />
 
-      <br /><br />
+  <label>Contraseña:</label>
+  <input type="password" name="password" required />
 
-      <button type="submit">Ingresar</button>
-    </form>
-  </body>
-</html>
+  <br /><br />
+
+  <button type="submit">Ingresar</button>
+</form>
+
+{% endblock %}
