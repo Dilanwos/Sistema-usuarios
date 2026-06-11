@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Sistema Usuarios{% endblock %}</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="{{ url_for('home') }}">🔐 Sistema Usuarios</a>
+      </div>
+
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">Inicio</a>
+
+        {% if session.get("usuario_id") %}
+        <a href="{{ url_for('profile') }}">Perfil</a>
+
+        {% if session.get("usuario_rol") == "admin" %}
+        <a href="{{ url_for('admin') }}">Admin</a>
+        {% endif %}
+
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+
+        {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Registro</a>
+        {% endif %}
+      </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+
+    <div class="flash {{ category }}">{{ message }}</div>
+
+    {% endfor %} {% endif %} {% endwith %}
+    <hr />
+
+    <div class="container">{% block content %} {% endblock %}</div>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+  </body>
+</html>
