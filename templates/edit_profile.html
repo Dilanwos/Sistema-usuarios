@@ -38,7 +38,8 @@ content %}
       <img id="crop-image" style="max-width: 100%; display: none" />
     </div>
 
-    <button type="submit">Guardar Cambios</button>
+    <button type="submit" id="save-btn">Guardar Cambios</button>
+    <input type="hidden" name="cropped_image" id="cropped_image" />
   </form>
 </div>
 
@@ -77,6 +78,19 @@ content %}
     };
 
     reader.readAsDataURL(file);
+  });
+  const saveBtn = document.getElementById("save-btn");
+
+  saveBtn.addEventListener("click", function () {
+    if (cropper) {
+      const canvas = cropper.getCroppedCanvas({
+        width: 300,
+        height: 300,
+      });
+
+      document.getElementById("cropped_image").value =
+        canvas.toDataURL("image/jpeg");
+    }
   });
 </script>
 

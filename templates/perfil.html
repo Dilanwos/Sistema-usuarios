@@ -14,38 +14,39 @@
 
       <p class="username">@{{ usuario.username }}</p>
 
-      <span class="role-badge"> {{ usuario.rol }} </span>
+      <span class="role-badge">{{ usuario.rol }}</span>
     </div>
   </div>
 
   <hr />
 
-<div class="stats-grid">
-  <div class="stat-card">
-    <h3>👤 Usuario</h3>
-    <p>{{ usuario.username }}</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>👤 Usuario</h3>
+      <p>{{ usuario.username }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>🛡 Rol</h3>
+      <p>{{ usuario.rol }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>📧 Email</h3>
+      <p>{{ usuario.email }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>📝 Descripción</h3>
+      <p>{{ usuario.descripcion }}</p>
+    </div>
   </div>
 
-  <div class="stat-card">
-    <h3>🛡 Rol</h3>
-    <p>{{ usuario.rol }}</p>
-  </div>
-
-  <div class="stat-card">
-    <h3>📧 Email</h3>
-    <p>{{ usuario.email }}</p>
-  </div>
-
-  <div class="stat-card">
-    <h3>📝 Descripción</h3>
-    <p>{{ usuario.descripcion }}</p>
-  </div>
   <div class="profile-actions">
-  <a class="btn-primary" href="{{ url_for('edit_profile') }}">
-    Editar Perfil
-  </a>
-</div>
+    <a class="btn-primary" href="{{ url_for('edit_profile') }}">
+      Editar Perfil
+    </a>
   </div>
 </div>
-</div>
+
 {% endblock %}
