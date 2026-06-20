@@ -1,3 +1,9 @@
+import os
+import re
+import base64
+from io import BytesIO
+from PIL import Image
+
 from flask import (
     Flask,
     redirect,
@@ -7,11 +13,11 @@ from flask import (
     url_for,
     flash
 )
+
 from models import db, Usuario
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
-import re
-import os
+
 
 app = Flask(__name__)
 app.secret_key = "mi_clave_super_secreta"
@@ -129,47 +135,135 @@ def edit_profile():
         flash("Debes iniciar sesión", "error")
         return redirect(url_for("login"))
 
-    usuario = Usuario.query.get(session["usuario_id"])
+    usuario = Usuario.query.get(
+        session["usuario_id"]
+    )
 
     if request.method == "POST":
 
-        usuario.nombre = request.form["nombre"]
-        usuario.username = request.form["username"]
-        usuario.descripcion = request.form["descripcion"]
+        usuario.nombre = request.form[
+            "nombre"
+        ]
 
-        foto = request.files.get("foto")
+        usuario.username = request.form[
+            "username"
+        ]
+
+        usuario.descripcion = request.form[
+            "descripcion"
+        ]
+
+        foto = request.files.get(
+            "foto"
+        )
 
         if foto and foto.filename != "":
 
-            # Guardar nombre de la foto anterior
+            if not archivo_permitido(
+                foto.filename
+            ):
+
+                flash(
+                    "Solo se permiten imágenes JPG, JPEG, PNG y WEBP",
+                    "error"
+                )
+
+                return redirect(
+                    url_for(
+                        "edit_profile"
+                    )
+                )
+
+        cropped_image = request.form.get(
+            "cropped_image"
+        )
+
+        if cropped_image:
+
             foto_anterior = usuario.foto
 
-            nombre_archivo = secure_filename(
-                foto.filename
+            try:
+
+                header, encoded = (
+                    cropped_image.split(
+                        ",", 1
+                    )
+                )
+
+                data = (
+                    base64.b64decode(
+                        encoded
+                    )
+                )
+
+                image = Image.open(
+                    BytesIO(data)
+                )
+
+                image.verify()
+
+                image = Image.open(
+                    BytesIO(data)
+                )
+
+            except Exception:
+
+                flash(
+                    "La imagen no es válida",
+                    "error"
+                )
+
+                return redirect(
+                    url_for(
+                        "edit_profile"
+                    )
+                )
+
+            nombre_archivo = (
+                f"{usuario.id}.jpg"
             )
 
-            ruta_nueva = os.path.join(
-                app.config["UPLOAD_FOLDER"],
+            ruta = os.path.join(
+                app.config[
+                    "UPLOAD_FOLDER"
+                ],
                 nombre_archivo
             )
 
-            foto.save(ruta_nueva)
+            image.save(
+                ruta,
+                format="JPEG",
+                quality=90
+            )
 
-            usuario.foto = nombre_archivo
+            usuario.foto = (
+                nombre_archivo
+            )
 
-            # Eliminar foto anterior
             if (
                 foto_anterior
-                and foto_anterior != "default.png"
+                and foto_anterior
+                != nombre_archivo
+                and foto_anterior
+                != "default.png"
             ):
 
-                ruta_anterior = os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    foto_anterior
+                ruta_anterior = (
+                    os.path.join(
+                        app.config[
+                            "UPLOAD_FOLDER"
+                        ],
+                        foto_anterior
+                    )
                 )
 
-                if os.path.exists(ruta_anterior):
-                    os.remove(ruta_anterior)
+                if os.path.exists(
+                    ruta_anterior
+                ):
+
+                    os.remove(
+                        ruta_anterior
+                    )
 
         db.session.commit()
 
@@ -178,7 +272,9 @@ def edit_profile():
             "success"
         )
 
-        return redirect(url_for("profile"))
+        return redirect(
+            url_for("profile")
+        )
 
     return render_template(
         "edit_profile.html",
@@ -215,7 +311,18 @@ def admin():
     # 📦 traer todos los usuarios
     usuarios = Usuario.query.all()
 
-    return render_template("admin.html", usuarios=usuarios)
+    # 📊 estadísticas
+    total_usuarios = len(usuarios)
+    total_admins = len([u for u in usuarios if u.rol == "admin"])
+    total_usuarios_normales = len([u for u in usuarios if u.rol != "admin"])
+
+    return render_template(
+        "admin.html",
+        usuarios=usuarios,
+        total_usuarios=total_usuarios,
+        total_admins=total_admins,
+        total_usuarios_normales=total_usuarios_normales
+    )
 
 
 @app.route("/delete_user/<int:id>")
@@ -251,10 +358,37 @@ def edit_user(id):
 
         db.session.commit()
 
+        # Si el usuario editado es el que está logueado,
+        # actualizar también la sesión
+        if usuario.id == session.get("usuario_id"):
+            session["usuario_rol"] = usuario.rol
+
         flash("Usuario actualizado correctamente", "success")
+
+        # Si ya no es admin, sacarlo del panel
+        if session.get("usuario_rol") != "admin":
+            return redirect(url_for("profile"))
+
         return redirect(url_for("admin"))
 
     return render_template("edit_user.html", usuario=usuario)
+
+
+ALLOWED_EXTENSIONS = {
+    "png",
+    "jpg",
+    "jpeg",
+    "webp"
+}
+
+
+def archivo_permitido(nombre_archivo):
+    return (
+        "." in nombre_archivo
+        and nombre_archivo.rsplit(
+            ".", 1
+        )[1].lower() in ALLOWED_EXTENSIONS
+    )
 
 
 if __name__ == "__main__":
