@@ -104,8 +104,9 @@ def login():
             return redirect(url_for("login"))
 
         session["usuario_id"] = usuario.id
-        session["usuario_nombre"] = usuario.nombre
+        session["usuario_nombre"] = usuario.username
         session["usuario_rol"] = usuario.rol
+        session["usuario_foto"] = usuario.foto
 
         flash("Inicio de sesión exitoso", "success")
         return redirect(url_for("profile"))
@@ -267,6 +268,9 @@ def edit_profile():
 
         db.session.commit()
 
+        session["usuario_nombre"] = usuario.nombre
+        session["usuario_foto"] = usuario.foto
+
         flash(
             "Perfil actualizado correctamente",
             "success"
@@ -303,25 +307,41 @@ def usuarios():
 @app.route("/admin")
 def admin():
 
-    # 🔒 solo admin puede entrar
     if session.get("usuario_rol") != "admin":
         flash("Acceso denegado", "error")
         return redirect(url_for("profile"))
 
-    # 📦 traer todos los usuarios
     usuarios = Usuario.query.all()
 
-    # 📊 estadísticas
     total_usuarios = len(usuarios)
-    total_admins = len([u for u in usuarios if u.rol == "admin"])
-    total_usuarios_normales = len([u for u in usuarios if u.rol != "admin"])
+
+    total_admins = len(
+        [u for u in usuarios if u.rol == "admin"]
+    )
+
+    total_usuarios_normales = len(
+        [u for u in usuarios if u.rol != "admin"]
+    )
+
+    total_fotos = len(
+        [
+            u for u in usuarios
+            if u.foto and u.foto != "default.png"
+        ]
+    )
+
+    ultimo_usuario = Usuario.query.order_by(
+        Usuario.id.desc()
+    ).first()
 
     return render_template(
         "admin.html",
         usuarios=usuarios,
         total_usuarios=total_usuarios,
         total_admins=total_admins,
-        total_usuarios_normales=total_usuarios_normales
+        total_usuarios_normales=total_usuarios_normales,
+        total_fotos=total_fotos,
+        ultimo_usuario=ultimo_usuario
     )
 
 
