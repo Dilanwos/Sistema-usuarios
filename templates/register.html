@@ -20,7 +20,20 @@ content %}
   <br /><br />
 
   <label>Contraseña:</label>
-  <input type="password" name="password" required />
+
+  <div class="password-container">
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="password-input"
+      required
+    />
+
+    <span class="toggle-password"> 👁️ </span>
+  </div>
+
+  <div id="password-strength"></div>
 
   <br /><br />
 

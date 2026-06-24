@@ -2,17 +2,44 @@
 content %}
 
 <section class="hero">
-  <h1>Sistema de Usuarios Flask</h1>
+{% if session.get("usuario_id") %}
 
-  <p>
-    Proyecto completo de autenticación, gestión de usuarios y panel de
-    administración.
-  </p>
+<h1>
+    Bienvenido, {{ session.get('usuario_nombre') }}
+</h1>
+
+<p>
+    Gestiona tu perfil, actualiza tu información
+    y accede a las herramientas del sistema.
+</p>
+
+{% else %}
+
+<h1>
+    Sistema de Usuarios Flask
+</h1>
+
+<p>
+    Proyecto completo de autenticación,
+    gestión de usuarios y panel de administración.
+</p>
+
+{% endif %}
 
   <div class="hero-buttons">
-    <a class="btn-primary" href="{{ url_for('login') }}"> Iniciar Sesión </a>
+    {% if session.get("usuario_id") %}
 
-    <a class="btn-primary" href="{{ url_for('register') }}"> Registrarse </a>
+    <a href="{{ url_for('profile') }}" class="btn-primary"> Mi Perfil </a>
+
+    {% if session.get("usuario_rol") == "admin" %}
+    <a href="{{ url_for('admin') }}" class="btn-primary"> Panel Admin </a>
+    {% endif %} {% else %}
+
+    <a href="{{ url_for('login') }}" class="btn-primary"> Iniciar Sesión </a>
+
+    <a href="{{ url_for('register') }}" class="btn-primary"> Registrarse </a>
+
+    {% endif %}
   </div>
 </section>
 

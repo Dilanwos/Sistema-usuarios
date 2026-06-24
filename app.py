@@ -30,6 +30,26 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 
+def validar_password(password):
+
+    if len(password) < 8:
+        return "La contraseña debe tener al menos 8 caracteres"
+
+    if not re.search(r"[A-Z]", password):
+        return "La contraseña debe contener al menos una letra mayúscula"
+
+    if not re.search(r"[a-z]", password):
+        return "La contraseña debe contener al menos una letra minúscula"
+
+    if not re.search(r"[0-9]", password):
+        return "La contraseña debe contener al menos un número"
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        return "La contraseña debe contener al menos un carácter especial"
+
+    return None
+
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -44,6 +64,12 @@ def register():
         username = request.form["username"]
         email = request.form["email"]
         password = request.form["password"]
+
+        error_password = validar_password(password)
+
+        if error_password:
+            flash(error_password, "error")
+            return redirect(url_for("register"))
 
         usuario_existente = Usuario.query.filter_by(email=email).first()
 
@@ -284,6 +310,52 @@ def edit_profile():
         "edit_profile.html",
         usuario=usuario
     )
+
+
+@app.route("/cambiar-password", methods=["GET", "POST"])
+def cambiar_password():
+
+    if "usuario_id" not in session:
+        flash("Debes iniciar sesión", "error")
+        return redirect(url_for("login"))
+
+    usuario = Usuario.query.get(session["usuario_id"])
+
+    if request.method == "POST":
+
+        password_actual = request.form["password_actual"]
+        nueva_password = request.form["nueva_password"]
+        confirmar_password = request.form["confirmar_password"]
+
+        if nueva_password != confirmar_password:
+            flash("Las contraseñas no coinciden", "error")
+            return redirect(url_for("cambiar_password"))
+
+        # Verificar contraseña actual
+        if not check_password_hash(usuario.password, password_actual):
+            flash("La contraseña actual es incorrecta", "error")
+            return redirect(url_for("cambiar_password"))
+
+        # Validar longitud
+        error_password = validar_password(nueva_password)
+
+        if error_password:
+            flash(error_password, "error")
+            return redirect(url_for("cambiar_password"))
+
+        # Guardar nueva contraseña
+        usuario.password = generate_password_hash(nueva_password)
+
+        db.session.commit()
+
+        flash(
+            "Contraseña actualizada correctamente",
+            "success"
+        )
+
+        return redirect(url_for("profile"))
+
+    return render_template("cambiar_password.html")
 
 
 @app.route('/logout')
