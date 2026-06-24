@@ -19,7 +19,7 @@ content %}
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">🛡</div>
+      <div class="stat-icon">🛡️</div>
       <div>
         <h3>Admins</h3>
         <p>{{ total_admins }}</p>
@@ -30,7 +30,26 @@ content %}
       <div class="stat-icon">👤</div>
       <div>
         <h3>Normales</h3>
-        <p>{{ total_normales }}</p>
+        <p>{{ total_usuarios_normales }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🖼️</div>
+      <div>
+        <h3>Con Foto</h3>
+        <p>{{ total_fotos }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div>
+        <h3>Último Usuario</h3>
+        <p>
+          {% if ultimo_usuario %} {{ ultimo_usuario.nombre }} {% else %} Ninguno
+          {% endif %}
+        </p>
       </div>
     </div>
   </div>
@@ -63,7 +82,12 @@ content %}
             <a class="btn edit" href="{{ url_for('edit_user', id=u.id) }}"
               >✏️ Editar</a
             >
-            <a class="btn delete" href="{{ url_for('delete_user', id=u.id) }}"
+            <a
+              class="btn delete"
+              href="{{ url_for('delete_user', id=u.id) }}"
+              onclick="
+                return confirm('¿Seguro que deseas eliminar este usuario?');
+              "
               >🗑 Eliminar</a
             >
           </td>
