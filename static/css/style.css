@@ -86,9 +86,26 @@ body{
 
     padding:30px;
 
+    border:1px solid transparent;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:rgba(59,130,246,.40);
+
     box-shadow:
-    0 10px 25px
-    rgba(0,0,0,.08);
+    0 0 0 4px rgba(59,130,246,.08),
+    0 15px 30px rgba(59,130,246,.18);
 
 }
 
@@ -290,7 +307,10 @@ select:focus{
     padding:20px;
     border-radius:12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+    transition: all .3s ease;
 }
+
 
 .stat-card:hover{
     transform:translateY(-5px);
@@ -843,4 +863,46 @@ body.dark-mode .dropdown-menu a:hover,
 body.dark-mode .theme-btn:hover{
     background:#334155;
     color:#38bdf8;
+}
+    
+body.dark-mode .feature-card,
+body.dark-mode .tech-card{
+    background:#1e293b;
+    border:1px solid #334155;
+}
+
+body.dark-mode .feature-card:hover,
+body.dark-mode .tech-card:hover{
+    transform:translateY(-4px);
+    border-color:#3b82f6;
+}
+
+/* DARK MODE CARDS */
+
+body.dark-mode .card{
+
+    background:#1e293b;
+
+    color:#f8fafc;
+
+    border:1px solid #334155;
+
+}
+
+body.dark-mode .card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#3b82f6;
+
+    box-shadow:0 15px 30px rgba(59,130,246,.20);
+
+}
+
+.tech-grid .card{
+
+    text-align:center;
+
+    font-weight:600;
+
 }
