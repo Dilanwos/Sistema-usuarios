@@ -1,8 +1,57 @@
 {% extends "base.html" %} {% block title %} Inicio {% endblock %} {% block
 content %}
 
-<h1>Bienvenido al Sistema de Usuarios</h1>
+<section class="hero">
+  <h1>Sistema de Usuarios Flask</h1>
 
-<p>Proyecto desarrollado con Flask.</p>
+  <p>
+    Proyecto completo de autenticación, gestión de usuarios y panel de
+    administración.
+  </p>
+
+  <div class="hero-buttons">
+    <a class="btn-primary" href="{{ url_for('login') }}"> Iniciar Sesión </a>
+
+    <a class="btn-primary" href="{{ url_for('register') }}"> Registrarse </a>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Características</h2>
+
+  <div class="features-grid">
+    <div class="card">
+      <h3>🔐 Login Seguro</h3>
+      <p>Contraseñas protegidas con hash.</p>
+    </div>
+
+    <div class="card">
+      <h3>🛡️ Roles</h3>
+      <p>Usuarios y administradores.</p>
+    </div>
+
+    <div class="card">
+      <h3>🖼️ Fotos de Perfil</h3>
+      <p>Con Cropper.js y validación.</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Dashboard Admin</h3>
+      <p>Gestión completa de usuarios.</p>
+    </div>
+  </div>
+</section>
+
+<section class="tech">
+  <h2>Tecnologías</h2>
+
+  <div class="tech-grid">
+    <div class="card">Python</div>
+    <div class="card">Flask</div>
+    <div class="card">SQLite</div>
+    <div class="card">HTML</div>
+    <div class="card">CSS</div>
+  </div>
+</section>
 
 {% endblock %}

@@ -19,13 +19,24 @@
         <a href="{{ url_for('home') }}">Inicio</a>
 
         {% if session.get("usuario_id") %}
+
         <a href="{{ url_for('profile') }}">Perfil</a>
 
         {% if session.get("usuario_rol") == "admin" %}
         <a href="{{ url_for('admin') }}">Admin</a>
         {% endif %}
 
-        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        <div class="nav-user">
+          <img
+            src="{{ url_for('static', filename='uploads/' + session.get('usuario_foto', 'default.png')) }}"
+            alt="Avatar"
+            class="nav-avatar"
+          />
+
+          <span>{{ session.get('usuario_nombre', 'Usuario') }}</span>
+
+          <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
 
         {% else %}
         <a href="{{ url_for('login') }}">Login</a>
