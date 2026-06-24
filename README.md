@@ -253,7 +253,7 @@ python app.py
 
 ---
 
-### 🔐 Inicio de Sesión
+### 🔐 Registro
 
 ![Login](static/screenshots/registro.png)
 
