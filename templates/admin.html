@@ -57,8 +57,20 @@ content %}
   <!-- TABLE -->
   <div class="table-container">
     <h2>📋 Gestión de usuarios</h2>
+    <form class="search-form" method="GET">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Buscar por nombre, usuario o correo..."
+        autocomplete="off"
+      />
 
-    <table class="modern-table">
+      <a href="{{ url_for('admin') }}" class="btn clear-btn"> Limpiar </a>
+    </form>
+    <p class="results-count" id="resultsCount">
+      {{ usuarios|length }} usuario(s) encontrado(s)
+    </p>
+    <table class="modern-table" id="usersTable">
       <thead>
         <tr>
           <th>ID</th>
@@ -70,32 +82,146 @@ content %}
       </thead>
 
       <tbody>
-        {% for u in usuarios %}
+        {% if usuarios %} {% for u in usuarios %}
         <tr>
           <td>{{ u.id }}</td>
           <td>{{ u.nombre }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <span class="badge {{ u.rol }}">{{ u.rol }}</span>
+            <span class="badge {{ u.rol }}"> {{ u.rol }} </span>
           </td>
+
           <td class="actions">
-            <a class="btn edit" href="{{ url_for('edit_user', id=u.id) }}"
-              >✏️ Editar</a
-            >
+            <a class="btn edit" href="{{ url_for('edit_user', id=u.id) }}">
+              ✏️ Editar
+            </a>
+
             <a
               class="btn delete"
               href="{{ url_for('delete_user', id=u.id) }}"
-              onclick="
-                return confirm('¿Seguro que deseas eliminar este usuario?');
-              "
-              >🗑 Eliminar</a
+              data-id="{{ u.id }}"
+              data-nombre="{{ u.nombre }}"
+              data-email="{{ u.email }}"
+              data-rol="{{ u.rol }}"
+              onclick="abrirModal(event, this)"
             >
+              🗑 Eliminar
+            </a>
           </td>
         </tr>
-        {% endfor %}
+        {% endfor %} {% else %}
+
+        <tr id="emptyMessage" style="display: none">
+          <td colspan="5" class="empty-table">
+            🔍 No se encontraron usuarios.
+          </td>
+        </tr>
+
+        {% endif %}
       </tbody>
     </table>
   </div>
 </div>
+<!-- Modal de confirmación -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h2>⚠️ Eliminar Usuario</h2>
 
+    <p>¿Estás seguro de eliminar el siguiente usuario?</p>
+
+    <div class="modal-user-info">
+      <p><strong>Nombre:</strong> <span id="usuarioNombre"></span></p>
+
+      <p><strong>Correo:</strong> <span id="usuarioEmail"></span></p>
+
+      <p><strong>Rol:</strong> <span id="usuarioRol"></span></p>
+    </div>
+
+    <p class="modal-warning">Esta acción no se puede deshacer.</p>
+
+    <div class="modal-buttons">
+      <button type="button" class="btn cancel" onclick="cerrarModal()">
+        Cancelar
+      </button>
+
+      <a id="confirmDelete" class="btn delete" href="#"> Eliminar </a>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("searchInput");
+    const counter = document.getElementById("resultsCount");
+    const emptyMessage = document.getElementById("emptyMessage");
+
+    const rows = document.querySelectorAll(
+      "#usersTable tbody tr:not(#emptyMessage)",
+    );
+
+    function filtrarUsuarios() {
+      const texto = input.value.toLowerCase().trim();
+
+      let encontrados = 0;
+
+      rows.forEach((row) => {
+        const contenido = row.textContent.toLowerCase();
+
+        if (contenido.includes(texto)) {
+          row.style.display = "";
+
+          encontrados++;
+        } else {
+          row.style.display = "none";
+        }
+      });
+
+      counter.textContent = `${encontrados} usuario(s) encontrado(s)`;
+
+      if (encontrados === 0) {
+        emptyMessage.style.display = "";
+      } else {
+        emptyMessage.style.display = "none";
+      }
+    }
+
+    input.addEventListener("input", filtrarUsuarios);
+  });
+</script>
+<script>
+  function abrirModal(event, boton) {
+    event.preventDefault();
+
+    const modal = document.getElementById("deleteModal");
+
+    const nombre = boton.dataset.nombre;
+    const email = boton.dataset.email;
+    const rol = boton.dataset.rol;
+    const enlace = boton.href;
+
+    document.getElementById("usuarioNombre").textContent = nombre;
+    document.getElementById("usuarioEmail").textContent = email;
+    document.getElementById("usuarioRol").textContent = rol;
+
+    document.getElementById("confirmDelete").href = enlace;
+
+    modal.style.display = "flex";
+  }
+
+  function cerrarModal() {
+    document.getElementById("deleteModal").style.display = "none";
+  }
+
+  window.onclick = function (event) {
+    const modal = document.getElementById("deleteModal");
+
+    if (event.target === modal) {
+      cerrarModal();
+    }
+  };
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      cerrarModal();
+    }
+  });
+</script>
 {% endblock %}
