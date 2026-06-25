@@ -5,3 +5,6 @@ __pycache__/
 *.pyd
 instance/
 database.db
+# Fotos de perfil
+static/uploads/*
+!static/uploads/.gitkeep
