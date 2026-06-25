@@ -1,0 +1,60 @@
+/* ==========================================================
+   FLASH MESSAGES
+========================================================== */
+
+.flash{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    width:90%;
+    max-width:900px;
+
+    margin:20px auto;
+
+    padding:16px 20px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.flash.success{
+
+    background:#ecfdf5;
+
+    color:#065f46;
+
+    border-left:5px solid #10b981;
+
+}
+
+.flash.error{
+
+    background:#eff6ff;
+
+    color:#1d4ed8;
+
+    border-left:5px solid #2563eb;
+
+}
+
+/* ==========================================================
+   AUTO HIDE
+========================================================== */
+
+.flash.hide{
+
+    opacity:0;
+
+    transform:translateY(-15px);
+
+    transition:
+        opacity .5s ease,
+        transform .5s ease;
+
+}

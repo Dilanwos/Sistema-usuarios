@@ -1,0 +1,222 @@
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+body.dark-mode{
+
+    background:#0f172a;
+
+    color:#f8fafc;
+
+}
+
+/* ==========================================================
+   COMPONENTES GENERALES
+========================================================== */
+
+body.dark-mode .profile-card,
+body.dark-mode .card,
+body.dark-mode .edit-card,
+body.dark-mode .stat-card,
+body.dark-mode .table-container{
+
+    background:#1e293b;
+
+    color:#f8fafc;
+
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select{
+
+    background:#334155;
+
+    color:#f8fafc;
+
+    border:1px solid #475569;
+
+}
+
+/* ==========================================================
+   NAVBAR
+========================================================== */
+
+body.dark-mode .navbar{
+
+    background:#1e293b;
+
+}
+
+body.dark-mode .nav-links a{
+
+    color:#ffffff;
+
+}
+
+/* ==========================================================
+   DROPDOWN
+========================================================== */
+
+body.dark-mode .dropdown-menu{
+
+    background:#1e293b;
+
+}
+
+body.dark-mode .dropdown-menu a{
+
+    color:#f8fafc;
+
+}
+
+body.dark-mode .dropdown-menu hr{
+
+    border-color:#334155;
+
+}
+
+body.dark-mode .dropdown-menu a:hover,
+body.dark-mode .theme-btn:hover{
+
+    background:#334155;
+
+    color:#38bdf8;
+
+}
+
+body.dark-mode .theme-btn{
+
+    color:#f8fafc;
+
+}
+
+/* ==========================================================
+   TABLA
+========================================================== */
+
+body.dark-mode .modern-table{
+
+    background:#1e293b;
+
+}
+
+body.dark-mode .modern-table td{
+
+    color:#f8fafc;
+
+    border-color:#334155;
+
+}
+
+body.dark-mode .modern-table tr:hover{
+
+    background:#2b3648;
+
+}
+
+/* ==========================================================
+   TEXTOS
+========================================================== */
+
+body.dark-mode p,
+body.dark-mode .username,
+body.dark-mode .results-count{
+
+    color:#cbd5e1;
+
+}
+
+/* ==========================================================
+   TARJETAS HOME
+========================================================== */
+
+body.dark-mode .feature-card,
+body.dark-mode .tech-card{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+}
+
+body.dark-mode .feature-card:hover,
+body.dark-mode .tech-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#3b82f6;
+
+}
+
+/* ==========================================================
+   TARJETAS GENERALES
+========================================================== */
+
+body.dark-mode .card{
+
+    background:#1e293b;
+
+    color:#f8fafc;
+
+    border:1px solid #334155;
+
+}
+
+body.dark-mode .card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#3b82f6;
+
+    box-shadow:0 15px 30px rgba(59,130,246,.20);
+
+}
+
+/* ==========================================================
+   MODAL
+========================================================== */
+
+body.dark-mode .modal-content{
+
+    background:#1e293b;
+
+    color:#f8fafc;
+
+}
+
+body.dark-mode .modal-user-info{
+
+    background:#334155;
+
+}
+
+body.dark-mode .modal-warning{
+
+    color:#f87171;
+
+}
+
+/* ==========================================================
+   FLASH MESSAGES
+========================================================== */
+
+body.dark-mode .flash.success{
+
+    background:#17304f;
+
+    color:#dbeafe;
+
+    border-left:5px solid #3b82f6;
+
+}
+
+body.dark-mode .flash.error{
+
+    background:#24324a;
+
+    color:#dbeafe;
+
+    border-left:5px solid #60a5fa;
+
+}

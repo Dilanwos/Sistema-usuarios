@@ -1,0 +1,82 @@
+/* ==========================================================
+   MODAL
+========================================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.6);
+
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+
+    z-index:9999;
+
+}
+
+.modal-content{
+
+    width:420px;
+    max-width:90%;
+
+    padding:30px;
+
+    background:white;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+
+    animation:modalShow .25s ease;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+.modal-warning{
+
+    margin-top:10px;
+
+    color:#dc2626;
+
+}
+
+.modal-user-info{
+
+    margin:20px 0;
+
+    padding:15px;
+
+    background:#f8fafc;
+
+    border-radius:10px;
+
+    text-align:left;
+
+}
+
+.modal-user-info p{
+
+    margin:8px 0;
+
+}

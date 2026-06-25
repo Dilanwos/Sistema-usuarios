@@ -1,0 +1,119 @@
+/* ==========================================================
+   BOTONES GENERALES
+========================================================== */
+
+button,
+.btn-primary{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+button:hover,
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+    background:#1d4ed8;
+
+}
+
+.btn-primary{
+
+    display:inline-block;
+
+    text-decoration:none;
+
+}
+
+/* ==========================================================
+   BOTONES DEL PANEL ADMIN
+========================================================== */
+
+.btn{
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:14px;
+
+}
+
+.btn.edit{
+
+    background:#2563eb;
+
+}
+
+.btn.delete{
+
+    background:#dc2626;
+
+}
+
+.btn.cancel{
+
+    background:#64748b;
+
+}
+
+.btn.cancel:hover{
+
+    background:#475569;
+
+}
+
+/* ==========================================================
+   BOTÓN LIMPIAR
+========================================================== */
+
+.clear-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:120px;
+
+    height:48px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.clear-btn:hover{
+
+    background:#1d4ed8;
+
+}
