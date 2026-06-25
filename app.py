@@ -17,7 +17,7 @@ from flask import (
 from models import db, Usuario
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
-
+from sqlalchemy import or_
 
 app = Flask(__name__)
 app.secret_key = "mi_clave_super_secreta"
@@ -383,7 +383,19 @@ def admin():
         flash("Acceso denegado", "error")
         return redirect(url_for("profile"))
 
-    usuarios = Usuario.query.all()
+    busqueda = request.args.get("q", "").strip()
+
+    if busqueda:
+
+        usuarios = Usuario.query.filter(
+            or_(
+                Usuario.nombre.ilike(f"%{busqueda}%"),
+                Usuario.email.ilike(f"%{busqueda}%"),
+                Usuario.username.ilike(f"%{busqueda}%")
+            )
+        ).all()
+    else:
+        usuarios = Usuario.query.all()
 
     total_usuarios = len(usuarios)
 
@@ -413,7 +425,8 @@ def admin():
         total_admins=total_admins,
         total_usuarios_normales=total_usuarios_normales,
         total_fotos=total_fotos,
-        ultimo_usuario=ultimo_usuario
+        ultimo_usuario=ultimo_usuario,
+        busqueda=busqueda
     )
 
 
@@ -426,9 +439,23 @@ def delete_user(id):
 
     usuario = Usuario.query.get(id)
 
-    if usuario:
-        db.session.delete(usuario)
-        db.session.commit()
+    if not usuario:
+        flash("Usuario no encontrado.", "error")
+        return redirect(url_for("admin"))
+
+    total_admins = Usuario.query.filter_by(rol="admin").count()
+
+    if usuario.rol == "admin" and total_admins == 1:
+        flash(
+            "⚠️ No se puede eliminar el último administrador del sistema.",
+            "error"
+        )
+        return redirect(url_for("admin"))
+
+    db.session.delete(usuario)
+    db.session.commit()
+
+    flash("✅ Usuario eliminado correctamente.", "success")
 
     return redirect(url_for("admin"))
 
