@@ -15,10 +15,32 @@ content %}
   <br /><br />
 
   <label>Rol</label><br />
+
+  {% if usuario.id == super_admin_id %}
+
+  <div class="owner-role">👑 Propietario del sistema</div>
+
+  <p class="owner-info">
+    🔒 Este usuario es el propietario del sistema y su rol no puede modificarse.
+  </p>
+
+  <input type="hidden" name="rol" value="admin" />
+
+  {% else %}
+
   <select name="rol">
+    {% if usuario.rol == "usuario" %}
+    <option value="usuario" selected>Usuario</option>
+    {% else %}
     <option value="usuario">Usuario</option>
-    <option value="admin">Admin</option>
+    {% endif %} {% if usuario.rol == "admin" %}
+    <option value="admin" selected>Administrador</option>
+    {% else %}
+    <option value="admin">Administrador</option>
+    {% endif %}
   </select>
+
+  {% endif %}
 
   <br /><br />
 

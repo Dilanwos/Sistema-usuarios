@@ -23,11 +23,17 @@ app = Flask(__name__)
 app.secret_key = "mi_clave_super_secreta"
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+SUPER_ADMIN_ID = 1
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
+
+
+def es_super_admin(usuario):
+
+    return usuario.id == SUPER_ADMIN_ID
 
 
 def validar_password(password):
@@ -151,7 +157,8 @@ def profile():
 
     return render_template(
         "perfil.html",
-        usuario=usuario
+        usuario=usuario,
+        super_admin_id=SUPER_ADMIN_ID
     )
 
 
@@ -426,7 +433,8 @@ def admin():
         total_usuarios_normales=total_usuarios_normales,
         total_fotos=total_fotos,
         ultimo_usuario=ultimo_usuario,
-        busqueda=busqueda
+        busqueda=busqueda,
+        super_admin_id=SUPER_ADMIN_ID
     )
 
 
@@ -438,6 +446,17 @@ def delete_user(id):
         return redirect(url_for("profile"))
 
     usuario = Usuario.query.get(id)
+
+    if not usuario:
+        flash("Usuario no encontrado.", "error")
+        return redirect(url_for("admin"))
+
+    if es_super_admin(usuario):
+        flash(
+            "No puedes eliminar al propietario del sistema.",
+            "error"
+        )
+        return redirect(url_for("admin"))
 
     if not usuario:
         flash("Usuario no encontrado.", "error")
@@ -469,11 +488,36 @@ def edit_user(id):
 
     usuario = Usuario.query.get(id)
 
+    if (
+        es_super_admin(usuario)
+        and session.get("usuario_id") != SUPER_ADMIN_ID
+    ):
+
+        flash(
+            "Solo el propietario puede editar su propia cuenta.",
+            "error"
+        )
+
+        return redirect(url_for("admin"))
+
     if request.method == "POST":
 
         usuario.nombre = request.form["nombre"]
         usuario.email = request.form["email"]
-        usuario.rol = request.form["rol"]
+
+        if es_super_admin(usuario):
+            usuario.rol = "admin"
+
+            flash(
+                "El propietario del sistema siempre debe ser administrador.",
+                "error"
+            )
+
+        else:
+            rol = request.form.get("rol")
+
+            if rol:
+                usuario.rol = rol
 
         db.session.commit()
 
@@ -490,7 +534,11 @@ def edit_user(id):
 
         return redirect(url_for("admin"))
 
-    return render_template("edit_user.html", usuario=usuario)
+    return render_template(
+        "edit_user.html",
+        usuario=usuario,
+        super_admin_id=SUPER_ADMIN_ID
+    )
 
 
 ALLOWED_EXTENSIONS = {

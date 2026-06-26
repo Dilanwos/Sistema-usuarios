@@ -88,7 +88,19 @@ content %}
           <td>{{ u.nombre }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <span class="badge {{ u.rol }}"> {{ u.rol }} </span>
+            {% if u.id == super_admin_id %}
+
+            <span class="badge owner"> 👑 Propietario </span>
+
+            {% elif u.rol == "admin" %}
+
+            <span class="badge admin"> 🛡️ Administrador </span>
+
+            {% else %}
+
+            <span class="badge usuario"> 👤 Usuario </span>
+
+            {% endif %}
           </td>
 
           <td class="actions">

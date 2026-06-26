@@ -13,7 +13,19 @@
       <h1>{{ usuario.nombre }}</h1>
 
       <p class="profile-username">@{{ usuario.username }}</p>
-      <span class="role-badge">{{ usuario.rol }}</span>
+      {% if usuario.id == super_admin_id %}
+
+      <span class="role-badge owner"> 👑 Propietario del sistema </span>
+
+      {% elif usuario.rol == "admin" %}
+
+      <span class="role-badge admin"> 🛡️ Administrador </span>
+
+      {% else %}
+
+      <span class="role-badge usuario"> 👤 Usuario </span>
+
+      {% endif %}
     </div>
   </div>
 
@@ -27,7 +39,20 @@
 
     <div class="stat-card">
       <h3>🛡 Rol</h3>
-      <p>{{ usuario.rol }}</p>
+
+      {% if usuario.id == super_admin_id %}
+
+      <p>👑 Propietario del sistema</p>
+
+      {% elif usuario.rol == "admin" %}
+
+      <p>🛡️ Administrador</p>
+
+      {% else %}
+
+      <p>👤 Usuario</p>
+
+      {% endif %}
     </div>
 
     <div class="stat-card">
