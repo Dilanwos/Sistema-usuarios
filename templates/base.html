@@ -132,95 +132,15 @@
     />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
-    <script>
-      document.querySelectorAll(".password-container").forEach((container) => {
-        const input = container.querySelector(".password-input");
-        const button = container.querySelector(".toggle-password");
+<script src="{{ url_for('static', filename='js/password.js') }}"></script>
 
-        if (!input || !button) return;
+<script src="{{ url_for('static', filename='js/strength.js') }}"></script>
 
-        button.style.display = "none";
+<script src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
 
-        input.addEventListener("input", () => {
-          if (input.value.length > 0) {
-            button.style.display = "block";
-          } else {
-            button.style.display = "none";
-          }
-        });
+<script src="{{ url_for('static', filename='js/flash.js') }}"></script>
 
-        button.addEventListener("click", () => {
-          if (input.type === "password") {
-            input.type = "text";
-            button.textContent = "🙈";
-          } else {
-            input.type = "password";
-            button.textContent = "👁️";
-          }
-        });
-      });
-
-      const passwordField = document.getElementById("password");
-      const strengthText = document.getElementById("password-strength");
-
-      if (passwordField && strengthText) {
-        passwordField.addEventListener("input", () => {
-          const password = passwordField.value;
-
-          let score = 0;
-
-          if (password.length >= 8) score++;
-          if (/[A-Z]/.test(password)) score++;
-          if (/[a-z]/.test(password)) score++;
-          if (/[0-9]/.test(password)) score++;
-          if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score++;
-
-          if (password.length === 0) {
-            strengthText.textContent = "";
-          } else if (score <= 2) {
-            strengthText.textContent = "🔴 Contraseña débil";
-          } else if (score <= 4) {
-            strengthText.textContent = "🟡 Contraseña media";
-          } else {
-            strengthText.textContent = "🟢 Contraseña fuerte";
-          }
-        });
-      }
-    </script>
-    <script>
-      if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-      }
-    </script>
-    <script>
-      const themeButton = document.getElementById("theme-toggle");
-
-      if (themeButton) {
-        themeButton.addEventListener("click", () => {
-          document.body.classList.toggle("dark-mode");
-
-          if (document.body.classList.contains("dark-mode")) {
-            localStorage.setItem("theme", "dark");
-          } else {
-            localStorage.setItem("theme", "light");
-          }
-        });
-      }
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const flashes = document.querySelectorAll(".auto-hide");
-
-        flashes.forEach((flash) => {
-          setTimeout(() => {
-            flash.classList.add("hide");
-
-            setTimeout(() => {
-              flash.remove();
-            }, 500);
-          }, 4000);
-        });
-      });
-    </script>
+</body>
+</html>
   </body>
 </html>
