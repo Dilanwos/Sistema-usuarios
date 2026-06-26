@@ -136,13 +136,20 @@
 
 .badge{
 
-    padding:5px 10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    padding:6px 12px;
+
+    border-radius:999px;
 
     color:white;
 
-    border-radius:8px;
-
     font-size:12px;
+
+    font-weight:600;
 
 }
 
@@ -155,6 +162,18 @@
 .badge.usuario{
 
     background:#3b82f6;
+
+}
+
+.badge.owner{
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    );
+
+    color:white;
 
 }
 

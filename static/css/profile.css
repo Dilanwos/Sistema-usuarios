@@ -69,3 +69,39 @@
     margin-top:30px;
 
 }
+
+/* ==========================================================
+   PROPIETARIO DEL SISTEMA
+========================================================== */
+
+.owner-role{
+
+    margin-top:8px;
+
+    padding:12px 15px;
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    );
+
+    color:white;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    display:inline-block;
+
+}
+
+.owner-info{
+
+    margin-top:10px;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
