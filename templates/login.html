@@ -20,34 +20,12 @@ content %}
       required
     />
 
-    <span class="toggle-password" id="togglePassword"> 👁️ </span>
+    <span class="toggle-password">👁️</span>
   </div>
 
   <br /><br />
 
   <button type="submit">Ingresar</button>
 </form>
-<script>
-  const passwordInput = document.getElementById("password");
 
-  const togglePassword = document.getElementById("togglePassword");
-
-  passwordInput.addEventListener("input", () => {
-    if (passwordInput.value.length > 0) {
-      togglePassword.style.display = "block";
-    } else {
-      togglePassword.style.display = "none";
-    }
-  });
-
-  togglePassword.addEventListener("click", () => {
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      togglePassword.textContent = "🙈";
-    } else {
-      passwordInput.type = "password";
-      togglePassword.textContent = "👁️";
-    }
-  });
-</script>
 {% endblock %}
