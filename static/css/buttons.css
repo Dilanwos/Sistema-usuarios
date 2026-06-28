@@ -2,7 +2,7 @@
    BOTONES GENERALES
 ========================================================== */
 
-button,
+button:not(.clear-search),
 .btn-primary{
 
     background:#2563eb;
@@ -23,7 +23,7 @@ button,
 
 }
 
-button:hover,
+button:not(.clear-search):hover,
 .btn-primary:hover{
 
     transform:translateY(-2px);
@@ -82,38 +82,3 @@ button:hover,
 
 }
 
-/* ==========================================================
-   BOTÓN LIMPIAR
-========================================================== */
-
-.clear-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    min-width:120px;
-
-    height:48px;
-
-    background:#2563eb;
-
-    color:white;
-
-    border-radius:12px;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:.3s;
-
-}
-
-.clear-btn:hover{
-
-    background:#1d4ed8;
-
-}
