@@ -391,20 +391,46 @@ def admin():
         return redirect(url_for("profile"))
 
     busqueda = request.args.get("q", "").strip()
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+    sort = request.args.get("sort", "id")
+    order = request.args.get("order", "asc")
+
+    query = Usuario.query
 
     if busqueda:
-
-        usuarios = Usuario.query.filter(
+        query = query.filter(
             or_(
                 Usuario.nombre.ilike(f"%{busqueda}%"),
                 Usuario.email.ilike(f"%{busqueda}%"),
                 Usuario.username.ilike(f"%{busqueda}%")
             )
-        ).all()
-    else:
-        usuarios = Usuario.query.all()
+        )
 
-    total_usuarios = len(usuarios)
+    # Ordenar columnas
+    columnas = {
+        "id": Usuario.id,
+        "nombre": Usuario.nombre,
+        "email": Usuario.email,
+        "rol": Usuario.rol
+    }
+
+    columna = columnas.get(sort, Usuario.id)
+
+    if order == "desc":
+        query = query.order_by(columna.desc())
+    else:
+        query = query.order_by(columna.asc())
+
+    pagination = query.paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False
+    )
+
+    usuarios = pagination.items
+
+    total_usuarios = pagination.total
 
     total_admins = len(
         [u for u in usuarios if u.rol == "admin"]
@@ -434,7 +460,12 @@ def admin():
         total_fotos=total_fotos,
         ultimo_usuario=ultimo_usuario,
         busqueda=busqueda,
-        super_admin_id=SUPER_ADMIN_ID
+        super_admin_id=SUPER_ADMIN_ID,
+        pagination=pagination,
+        per_page=per_page,
+        page=page,
+        sort=sort,
+        order=order
     )
 
 
