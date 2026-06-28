@@ -1,0 +1,117 @@
+<!-- TABLE -->
+<table class="modern-table" id="usersTable">
+<thead>
+  <tr>
+
+    <th>
+      <a href="{{ url_for('admin',
+            sort='id',
+            order='desc' if sort == 'id' and order == 'asc' else 'asc',
+            page=page,
+            per_page=per_page,
+            q=busqueda) }}">
+        ID
+        {% if sort == "id" %}
+          {{ "▲" if order == "asc" else "▼" }}
+        {% endif %}
+      </a>
+    </th>
+
+    <th>
+      <a href="{{ url_for('admin',
+            sort='nombre',
+            order='desc' if sort == 'nombre' and order == 'asc' else 'asc',
+            page=page,
+            per_page=per_page,
+            q=busqueda) }}">
+        Nombre
+        {% if sort == "nombre" %}
+          {{ "▲" if order == "asc" else "▼" }}
+        {% endif %}
+      </a>
+    </th>
+
+    <th>
+      <a href="{{ url_for('admin',
+            sort='email',
+            order='desc' if sort == 'email' and order == 'asc' else 'asc',
+            page=page,
+            per_page=per_page,
+            q=busqueda) }}">
+        Email
+        {% if sort == "email" %}
+          {{ "▲" if order == "asc" else "▼" }}
+        {% endif %}
+      </a>
+    </th>
+
+    <th>
+      <a href="{{ url_for('admin',
+            sort='rol',
+            order='desc' if sort == 'rol' and order == 'asc' else 'asc',
+            page=page,
+            per_page=per_page,
+            q=busqueda) }}">
+        Rol
+        {% if sort == "rol" %}
+          {{ "▲" if order == "asc" else "▼" }}
+        {% endif %}
+      </a>
+    </th>
+
+    <th>Acciones</th>
+
+  </tr>
+</thead>
+
+      <tbody>
+        {% if usuarios %} {% for u in usuarios %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            {% if u.id == super_admin_id %}
+
+            <span class="badge owner"> 👑 Propietario </span>
+
+            {% elif u.rol == "admin" %}
+
+            <span class="badge admin"> 🛡️ Administrador </span>
+
+            {% else %}
+
+            <span class="badge usuario"> 👤 Usuario </span>
+
+            {% endif %}
+          </td>
+
+          <td class="actions">
+            <a class="btn edit" href="{{ url_for('edit_user', id=u.id) }}">
+              ✏️ Editar
+            </a>
+
+            <a
+              class="btn delete"
+              href="{{ url_for('delete_user', id=u.id) }}"
+              data-id="{{ u.id }}"
+              data-nombre="{{ u.nombre }}"
+              data-email="{{ u.email }}"
+              data-rol="{{ u.rol }}"
+              onclick="abrirModal(event, this)"
+            >
+              🗑 Eliminar
+            </a>
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+
+        <tr id="emptyMessage" style="display: none">
+          <td colspan="5" class="empty-table">
+            🔍 No se encontraron usuarios.
+          </td>
+        </tr>
+
+        {% endif %}
+      </tbody>
+    </table>

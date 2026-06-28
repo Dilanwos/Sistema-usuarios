@@ -1,0 +1,67 @@
+  <!-- TABLE -->
+<div class="table-container">
+
+    <h2>📋 Gestión de usuarios</h2>
+
+    <div class="table-toolbar">
+
+        <!-- Buscador -->
+<form class="search-form" method="GET" id="searchForm">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            name="q"
+            value="{{ busqueda }}"
+            placeholder="🔍 Buscar por nombre, usuario o correo..."
+            autocomplete="off"
+        >
+
+        <button
+            type="button"
+            id="clearSearch"
+            class="clear-search"
+        >
+            ✕
+        </button>
+
+    </div>
+
+    <input
+        type="hidden"
+        name="per_page"
+        value="{{ per_page }}"
+    >
+
+</form>
+
+        <!-- Mostrar registros -->
+        <form method="GET" class="per-page-form">
+
+            {% if busqueda %}
+                <input type="hidden" name="q" value="{{ busqueda }}">
+            {% endif %}
+
+            <label>Mostrar</label>
+
+            <select id="per_page" name="per_page" onchange="this.form.submit()">
+
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+
+            </select>
+            <input type="hidden" id="currentPerPage" value="{{ per_page }}">
+            
+            <span>usuarios</span>
+
+        </form>
+
+    </div>
+
+    <p class="results-count" id="resultsCount">
+        {{ usuarios|length }} usuario(s) encontrado(s)
+    </p>

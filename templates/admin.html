@@ -2,13 +2,13 @@
 content %}
 
 <div class="admin-container">
-  <!-- HEADER -->
+<!-- HEADER -->
   <div class="admin-header">
     <h1>🔐 Panel de Administrador</h1>
     <a class="back-link" href="{{ url_for('profile') }}">← Volver al perfil</a>
   </div>
 
-  <!-- STATS -->
+<!-- STATS -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon">👥</div>
@@ -54,151 +54,19 @@ content %}
     </div>
   </div>
 
-  <!-- TABLE -->
-  <div class="table-container">
-    <h2>📋 Gestión de usuarios</h2>
-    <form class="search-form" method="GET">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Buscar por nombre, usuario o correo..."
-        autocomplete="off"
-      />
+<!-- TOOLBAR -->
+{% include "partials/admin_toolbar.html" %}
 
-      <a href="{{ url_for('admin') }}" class="btn clear-btn"> Limpiar </a>
-    </form>
-    <p class="results-count" id="resultsCount">
-      {{ usuarios|length }} usuario(s) encontrado(s)
-    </p>
-    <table class="modern-table" id="usersTable">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
+<!-- TABLE -->
+{% include "partials/admin_table.html" %}
 
-      <tbody>
-        {% if usuarios %} {% for u in usuarios %}
-        <tr>
-          <td>{{ u.id }}</td>
-          <td>{{ u.nombre }}</td>
-          <td>{{ u.email }}</td>
-          <td>
-            {% if u.id == super_admin_id %}
+<!-- PAGINACIÓN -->
+{% include "partials/admin_pagination.html" %}
 
-            <span class="badge owner"> 👑 Propietario </span>
-
-            {% elif u.rol == "admin" %}
-
-            <span class="badge admin"> 🛡️ Administrador </span>
-
-            {% else %}
-
-            <span class="badge usuario"> 👤 Usuario </span>
-
-            {% endif %}
-          </td>
-
-          <td class="actions">
-            <a class="btn edit" href="{{ url_for('edit_user', id=u.id) }}">
-              ✏️ Editar
-            </a>
-
-            <a
-              class="btn delete"
-              href="{{ url_for('delete_user', id=u.id) }}"
-              data-id="{{ u.id }}"
-              data-nombre="{{ u.nombre }}"
-              data-email="{{ u.email }}"
-              data-rol="{{ u.rol }}"
-              onclick="abrirModal(event, this)"
-            >
-              🗑 Eliminar
-            </a>
-          </td>
-        </tr>
-        {% endfor %} {% else %}
-
-        <tr id="emptyMessage" style="display: none">
-          <td colspan="5" class="empty-table">
-            🔍 No se encontraron usuarios.
-          </td>
-        </tr>
-
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-</div>
 <!-- Modal de confirmación -->
-<div id="deleteModal" class="modal">
-  <div class="modal-content">
-    <h2>⚠️ Eliminar Usuario</h2>
+{% include "partials/delete_modal.html" %}
 
-    <p>¿Estás seguro de eliminar el siguiente usuario?</p>
-
-    <div class="modal-user-info">
-      <p><strong>Nombre:</strong> <span id="usuarioNombre"></span></p>
-
-      <p><strong>Correo:</strong> <span id="usuarioEmail"></span></p>
-
-      <p><strong>Rol:</strong> <span id="usuarioRol"></span></p>
-    </div>
-
-    <p class="modal-warning">Esta acción no se puede deshacer.</p>
-
-    <div class="modal-buttons">
-      <button type="button" class="btn cancel" onclick="cerrarModal()">
-        Cancelar
-      </button>
-
-      <a id="confirmDelete" class="btn delete" href="#"> Eliminar </a>
-    </div>
-  </div>
-</div>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("searchInput");
-    const counter = document.getElementById("resultsCount");
-    const emptyMessage = document.getElementById("emptyMessage");
-
-    const rows = document.querySelectorAll(
-      "#usersTable tbody tr:not(#emptyMessage)",
-    );
-
-    function filtrarUsuarios() {
-      const texto = input.value.toLowerCase().trim();
-
-      let encontrados = 0;
-
-      rows.forEach((row) => {
-        const contenido = row.textContent.toLowerCase();
-
-        if (contenido.includes(texto)) {
-          row.style.display = "";
-
-          encontrados++;
-        } else {
-          row.style.display = "none";
-        }
-      });
-
-      counter.textContent = `${encontrados} usuario(s) encontrado(s)`;
-
-      if (encontrados === 0) {
-        emptyMessage.style.display = "";
-      } else {
-        emptyMessage.style.display = "none";
-      }
-    }
-
-    input.addEventListener("input", filtrarUsuarios);
-  });
-</script>
+<!-- Scripts -->
 <script>
   function abrirModal(event, boton) {
     event.preventDefault();

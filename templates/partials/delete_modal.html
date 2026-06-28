@@ -1,0 +1,26 @@
+<!-- Modal de confirmación -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h2>⚠️ Eliminar Usuario</h2>
+
+    <p>¿Estás seguro de eliminar el siguiente usuario?</p>
+
+    <div class="modal-user-info">
+      <p><strong>Nombre:</strong> <span id="usuarioNombre"></span></p>
+
+      <p><strong>Correo:</strong> <span id="usuarioEmail"></span></p>
+
+      <p><strong>Rol:</strong> <span id="usuarioRol"></span></p>
+    </div>
+
+    <p class="modal-warning">Esta acción no se puede deshacer.</p>
+
+    <div class="modal-buttons">
+      <button type="button" class="btn cancel" onclick="cerrarModal()">
+        Cancelar
+      </button>
+
+      <a id="confirmDelete" class="btn delete" href="#"> Eliminar </a>
+    </div>
+  </div>
+</div>
