@@ -57,11 +57,12 @@ content %}
 <!-- TOOLBAR -->
 {% include "partials/admin_toolbar.html" %}
 
-<!-- TABLE -->
-{% include "partials/admin_table.html" %}
+<!-- TABLE --> <!-- PAGINACIÓN -->
+<div id="users-container">
 
-<!-- PAGINACIÓN -->
-{% include "partials/admin_pagination.html" %}
+  {% include "partials/admin_content.html" %}
+
+</div>
 
 <!-- Modal de confirmación -->
 {% include "partials/delete_modal.html" %}

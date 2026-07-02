@@ -451,6 +451,20 @@ def admin():
         Usuario.id.desc()
     ).first()
 
+    # Si la petición viene desde fetch(), devolver solo la tabla
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return render_template(
+            "partials/admin_content.html",
+            usuarios=usuarios,
+            pagination=pagination,
+            busqueda=busqueda,
+            per_page=per_page,
+            page=page,
+            sort=sort,
+            order=order,
+            super_admin_id=SUPER_ADMIN_ID
+        )
+
     return render_template(
         "admin.html",
         usuarios=usuarios,
