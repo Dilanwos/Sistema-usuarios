@@ -1,49 +1,108 @@
-const searchInput = document.getElementById("searchInput");
-const searchForm = document.getElementById("searchForm");
+// ======================================
+// INICIALIZACIÓN
+// ======================================
 
-if (searchInput && searchForm) {
+document.addEventListener("DOMContentLoaded", () => {
 
-    let timeout;
+    init();
 
-    searchInput.addEventListener("input", () => {
+});
 
-        clearTimeout(timeout);
+// ======================================
+// VARIABLES GLOBALES
+// ======================================
 
-        timeout = setTimeout(() => {
+let searchTimeout;
 
-            searchForm.submit();
+// ======================================
+// FUNCIONES PRINCIPALES
+// ======================================
 
-        }, 300);
+function init() {
 
-    });
+    document.addEventListener("input", manejarInput);
+
+    document.addEventListener("change", manejarChange);
+
+    document.addEventListener("click", manejarClick);
 
 }
 
-const perPageSelect = document.getElementById("per_page");
-const currentPerPage = document.getElementById("currentPerPage");
+function manejarInput(event) {
+    if (event.target.id !== "searchInput") return;
 
-if (perPageSelect && currentPerPage) {
-    perPageSelect.value = currentPerPage.value;
-}
+    const clearButton = document.getElementById("clearSearch");
 
-const clearButton = document.getElementById("clearSearch");
+    if (clearButton) {
 
-if (searchInput && clearButton) {
+        clearButton.style.display =
+            event.target.value.trim() ? "flex" : "none";
 
-    function updateClearButton() {
-    clearButton.style.display = "flex";
     }
 
-    updateClearButton();
+    clearTimeout(searchTimeout);
 
-    searchInput.addEventListener("input", updateClearButton);
+    searchTimeout = setTimeout(() => {
 
-    clearButton.addEventListener("click", () => {
+        const searchInput = event.target;
+        const perPageSelect = document.getElementById("per_page");
 
-        searchInput.value = "";
+        const params = new URLSearchParams();
 
-        searchForm.submit();
+        params.append("q", searchInput.value);
+        params.append("per_page", perPageSelect.value);
 
+        cargarUsuarios(`/admin?${params.toString()}`);
+
+    }, 300);
+
+}
+
+function manejarChange(event) {
+    if (event.target.id !== "per_page") return;
+
+    const perPageSelect = event.target;
+    const searchInput = document.getElementById("searchInput");
+
+    const params = new URLSearchParams();
+
+    params.append("q", searchInput.value);
+    params.append("per_page", perPageSelect.value);
+
+    cargarUsuarios(`/admin?${params.toString()}`);
+
+}
+
+function manejarClick(event) {
+    if (event.target.id !== "clearSearch") return;
+
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.value = "";
+
+    const params = new URLSearchParams();
+
+    params.append("q", "");
+    params.append("per_page", document.getElementById("per_page").value);
+
+    cargarUsuarios(`/admin?${params.toString()}`);
+
+}
+
+// ======================================
+// AJAX
+// ======================================
+
+async function cargarUsuarios(url) {
+
+    const respuesta = await fetch(url, {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
     });
+
+    const html = await respuesta.text();
+
+    document.getElementById("users-container").innerHTML = html;
 
 }
