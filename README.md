@@ -1,6 +1,36 @@
+<div align="center">
+
 # 🔐 Sistema de Usuarios Flask
 
-Sistema web completo desarrollado con Flask que implementa autenticación segura, gestión de perfiles, roles de usuario y administrador, panel administrativo avanzado y una interfaz moderna con modo oscuro.
+### Sistema moderno de autenticación y administración de usuarios desarrollado con Flask
+
+<br>
+
+![Version](https://img.shields.io/badge/Version-v1.0.0-2563eb?style=for-the-badge)
+![Estado](https://img.shields.io/badge/Estado-Estable-22c55e?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.x-000000?style=for-the-badge&logo=flask&logoColor=white)
+
+<br>
+
+> 🚀 **Primera versión estable (v1.0.0)**
+
+Sistema web completo para la gestión de usuarios con autenticación, roles, perfiles, panel administrativo y funcionalidades dinámicas mediante AJAX.
+
+</div>
+
+---
+
+## 📦 Información de la versión
+
+| Información | Detalle |
+|-------------|---------|
+| **Versión** | **v1.0.0** |
+| **Estado** | ✅ Primera versión estable |
+| **Fecha de lanzamiento** | Julio 2026 |
+| **Autor** | Dilan Steven Chirva Cárdenas |
+| **Lenguaje principal** | Python |
+| **Framework** | Flask |
 
 ---
 
@@ -22,6 +52,8 @@ Este proyecto fue desarrollado con el objetivo de fortalecer habilidades en:
 ---
 
 ## ✨ Características
+
+Esta versión (**v1.0.0**) representa la primera versión estable del sistema e incluye todas las funcionalidades principales para la gestión de usuarios, autenticación y administración.
 
 ### 👤 Gestión de Usuarios
 
@@ -265,14 +297,14 @@ python app.py
 
 ## 🚀 Mejoras Futuras
 
-- API REST
 - Recuperación de contraseña por correo
-- Búsqueda de usuarios
-- Paginación
-- Notificaciones en tiempo real
+- Dashboard con gráficas
+- API REST
 - Docker
+- Sistema de notificaciones
+- Registro de actividad (Logs)
+- Autenticación en dos pasos (2FA)
 - Deploy en Render
-- Sistema avanzado de permisos
 
 ---
 

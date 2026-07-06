@@ -1,3 +1,4 @@
+from email import message
 import os
 import re
 import base64
@@ -11,7 +12,8 @@ from flask import (
     request,
     session,
     url_for,
-    flash
+    flash,
+    jsonify
 )
 
 from models import db, Usuario
@@ -29,6 +31,33 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
+
+# ======================================
+# INFORMACIÓN DE LA APLICACIÓN
+# ======================================
+
+APP_NAME = "Sistema de Usuarios"
+
+with open("VERSION", encoding="utf-8") as file:
+    APP_VERSION = file.read().strip()
+
+
+# ======================================
+# VARIABLES GLOBALES PARA LAS PLANTILLAS
+# ======================================
+
+
+@app.context_processor
+def inject_app_info():
+
+    return {
+        "APP_NAME": APP_NAME,
+        "APP_VERSION": APP_VERSION
+    }
+
+# ======================================
+# CONSTANTES DE LA APLICACIÓN
+# ======================================
 
 
 def es_super_admin(usuario):
@@ -483,7 +512,7 @@ def admin():
     )
 
 
-@app.route("/delete_user/<int:id>")
+@app.route("/delete_user/<int:id>", methods=["POST"])
 def delete_user(id):
 
     if session.get("usuario_rol") != "admin":
@@ -503,10 +532,6 @@ def delete_user(id):
         )
         return redirect(url_for("admin"))
 
-    if not usuario:
-        flash("Usuario no encontrado.", "error")
-        return redirect(url_for("admin"))
-
     total_admins = Usuario.query.filter_by(rol="admin").count()
 
     if usuario.rol == "admin" and total_admins == 1:
@@ -518,6 +543,14 @@ def delete_user(id):
 
     db.session.delete(usuario)
     db.session.commit()
+
+    # Si la petición viene desde AJAX
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+
+        return jsonify({
+            "success": True,
+            "message": "Usuario eliminado correctamente."
+        })
 
     flash("✅ Usuario eliminado correctamente.", "success")
 

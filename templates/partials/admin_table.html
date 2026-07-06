@@ -91,17 +91,17 @@
               ✏️ Editar
             </a>
 
-            <a
-              class="btn delete"
-              href="{{ url_for('delete_user', id=u.id) }}"
-              data-id="{{ u.id }}"
-              data-nombre="{{ u.nombre }}"
-              data-email="{{ u.email }}"
-              data-rol="{{ u.rol }}"
-              onclick="abrirModal(event, this)"
-            >
-              🗑 Eliminar
-            </a>
+          <a
+            class="btn delete"
+            data-action="delete-user"
+            href="{{ url_for('delete_user', id=u.id) }}"
+            data-id="{{ u.id }}"
+            data-nombre="{{ u.nombre }}"
+            data-email="{{ u.email }}"
+            data-rol="{{ u.rol }}"
+          >
+            🗑 Eliminar
+          </a>
           </td>
         </tr>
         {% endfor %} {% else %}

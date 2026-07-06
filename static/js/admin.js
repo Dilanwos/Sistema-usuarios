@@ -130,6 +130,98 @@ function manejarClick(event) {
 
     }
 
+    // ======================================
+    // ABRIR MODAL ELIMINAR
+    // ======================================
+
+    const botonEliminar = event.target.closest(
+        '[data-action="delete-user"]'
+    );
+
+    if (botonEliminar) {
+
+        event.preventDefault();
+
+        abrirModalEliminar(botonEliminar);
+
+        return;
+
+    }
+
+    // ======================================
+    // CONFIRMAR ELIMINACIÓN AJAX
+    // ======================================
+
+    if (event.target.id === "confirmDelete") {
+
+    eliminarUsuario(event.target.dataset.url);
+
+    return;
+
+    }
+}
+
+/**
+ * Abre el modal de confirmación para eliminar un usuario.
+ */
+function abrirModalEliminar(boton) {
+
+    console.log(boton);
+    console.log(boton.dataset);
+
+    const modal = document.getElementById("deleteModal");
+
+    document.getElementById("usuarioNombre").textContent =
+        boton.dataset.nombre;
+
+    document.getElementById("usuarioEmail").textContent =
+        boton.dataset.email;
+
+    document.getElementById("usuarioRol").textContent =
+        boton.dataset.rol;
+
+    document.getElementById("confirmDelete").dataset.url =
+        boton.href;
+
+    modal.style.display = "flex";
+
+}
+
+/**
+ * Elimina un usuario mediante una petición AJAX.
+ */
+async function eliminarUsuario(url) {
+
+    try {
+
+        const respuesta = await fetch(url, {
+
+            method: "POST",
+
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+
+        });
+
+        const resultado = await respuesta.json();
+
+        if (!resultado.success) {
+
+            throw new Error(resultado.message);
+
+        }
+
+        cerrarModal();
+
+        cargarUsuarios(window.location.href);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
 }
 
 // ======================================

@@ -1,10 +1,26 @@
+# Entorno virtual
 .venv/
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Base de datos
 instance/
 database.db
+
+# Variables de entorno
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración de VS Code
+.vscode/
+
 # Fotos de perfil
 static/uploads/*
 !static/uploads/.gitkeep
